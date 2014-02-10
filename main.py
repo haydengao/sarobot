@@ -11,7 +11,6 @@ from fabric.colors import *
 from fabric.context_managers import *
 from optparse import OptionParser
 import re,sys,subprocess,socket
-from base_commond import *
 import db
 import subprocess
 import sys
@@ -22,6 +21,14 @@ sys.setdefaultencoding('utf-8')
 #开启多线程
 env.parallel = 'true'
 
+#检查数据库完整性和数据库文件状态
+try:
+    db.check_database_status()
+except:
+    db.init_database()
+
+
+from base_commond import *
 
 #构建命令参数列表
 
@@ -51,7 +58,6 @@ if commond == "import":
     if os.path.isfile('./database/sabot.db'):
         db.import_info(sys.argv[2])
     else:
-        db.init_database()
         db.import_info(sys.argv[2])
         env.passwords = db.make_connection_info()
         env.hosts = db.make_connection_info().keys()
