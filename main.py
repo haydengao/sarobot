@@ -9,6 +9,7 @@ Created on Mon Jan 27 18:17:03 2014
 from fabric.api import *
 from fabric.colors import *
 from fabric.context_managers import *
+from optparse import OptionParser
 import re,sys,subprocess,socket
 from base_commond import *
 import db
@@ -20,6 +21,28 @@ sys.setdefaultencoding('utf-8')
 
 #开启多线程
 env.parallel = 'true'
+
+
+#构建命令参数列表
+
+def main():
+    parser = OptionParser()
+    parser.add_option("--add", action = "store",  dest = "server", nargs = 5 )
+    parser.add_option("--check", action = "store",  dest = "server_status", nargs = 2)
+    parser.add_option("--change_password", action = "store",  dest = "change_password", nargs = 2)
+    parser.add_option("--get", action = "store", dest = "file",nagrs = 3)
+    parser.add_option("--import", action = "store", dest = "config", nagrs = 2)
+    parser.add_option("--push", action = "store",  dest = "file", nargs = 3)
+    (options, args) = parser.parse_args()
+    
+    #if len(args) != 1:
+    #    parser.error("incorrect number of arguments")
+
+
+        
+
+
+
 
 commond = sys.argv[1] 
 argv = sys.argv[2]

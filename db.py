@@ -25,7 +25,8 @@ import os
 def init_database():
     conn = sqlite3.connect("./database/sabot.db")
     sql_run = conn.cursor()
-    sql_run.execute("create table account (id integer primary key UNIQUE, address varchar(20), username varchar(15),password varchar(100) , port integer default '22')")
+    #sql_run.execute("create table account (id integer primary key UNIQUE, address varchar(20), username varchar(15),password varchar(100) , port integer default '22')")
+    sql_run.execute("create table account (address varchar(20), username varchar(15),password varchar(100) , port integer default '22')")
     conn.commit()
     conn.close()
 
@@ -37,7 +38,7 @@ def make_connection_info():
     server_account = {}
     sql_run.execute("select * from account")
     for k in sql_run.fetchall():
-        server_account["%s@%s:%d" %(k[2],k[1],k[4])] = k[3]
+        server_account["%s@%s:%d" %(k[1],k[0],k[3])] = k[2]
     
     return server_account
 
@@ -49,16 +50,18 @@ def import_info(server_file):
 #    server_file = "./conf/test.txt"
     conn = sqlite3.connect("./database/sabot.db")
     sql_run = conn.cursor()
-    id = 0
+    #id = 0
     for server_info in open(server_file).readlines(100000):
         server_info_sql = []
-        server_info_sql.append((id,str(server_info.split()[0]),server_info.split()[1],server_info.split()[2],server_info.split()[3]))
+        server_info_sql.append((str(server_info.split()[0]),server_info.split()[1],server_info.split()[2],server_info.split()[3]))
         print server_info_sql        
         for i in server_info_sql:
-            sql_run.execute("insert into account values(?,?,?,?,?)",i)
+            #sql_run.execute("insert into account values(?,?,?,?,?)",i)
+            sql_run.execute("insert into account values(?,?,?,?)",i)
             conn.commit()
 
-        id += 1
+        #id += 1
 
     conn.close()
 
+#def add_server_info()
