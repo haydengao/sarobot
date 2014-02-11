@@ -31,7 +31,7 @@ env.hosts = db.make_connection_info().keys()
 #@parallel
 
 
-#new_passwd = "ayanami00"
+#new_passwd = "password"
 
 def check_host_alive():
     run('hostname')

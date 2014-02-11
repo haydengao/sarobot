@@ -1,2 +1,2 @@
-192.168.6.51 root P@ssword 22
-192.168.6.52 root ayanami00 22
+192.168.6.51 root password 22
+192.168.6.52 root password 22

@@ -24,8 +24,7 @@ def init_database():
 
 def check_database_status():
     conn = sqlite3.connect("./database/sarobot.db")
-    sql_run = conn.cuesor()
-    sql_run.execute("desc account")
+    sql_run = conn.cursor()
     sql_run.execute("select * from account")
     conn.close()
 
@@ -58,4 +57,17 @@ def import_info(server_file):
 
     conn.close()
 
-#def add_server_info()
+
+def add_server_info(address,username,password,port):
+    conn = sqlite3.connect("./database/sarobot.db")
+    sql_run = conn.cursor()
+    server_info_sql = [address,username,password,port]
+#    server_info_sql.append(address,username,password,port)
+    sql_run.execute("insert into account values(?,?,?,?)",server_info_sql)
+    conn.commit()
+    conn.close()
+
+
+
+    
+
