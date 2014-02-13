@@ -38,7 +38,7 @@ def main():
     parser = OptionParser()
     parser.add_option("--add", action = "store",  dest = "addserver", nargs = 4 )
     parser.add_option("--check", action = "store",  dest = "check_server_status")
-    parser.add_option("--change_password", action = "store",  dest = "change_password",default = "localhost" nargs = 2)
+    parser.add_option("--change_password", action = "store",  dest = "change_password", nargs = 2)
     parser.add_option("--display",action = "store", dest = "display_server_info")
     parser.add_option("--get", action = "store", dest = "file",nargs = 3)
     parser.add_option("--import", action = "store", dest = "importconfig", nargs = 1)
@@ -57,6 +57,12 @@ def main():
         server_info = db.make_connection_info()
         for i in server_info:
             print i
+    if options.change_password:
+        server_info = db.make_server_info(options.change_password[0])
+        env.user = server_info[0]
+        env.password = server_info[1]
+        env.host = options.change_password
+        base_commond.change_password(options.change_password[1])
     if options.check_server_status:
         print options.check_server_status
         #这里需要增加一个功能，就是指定服务器的状态查询，暂时先放下，等所有流程跑通后在进行

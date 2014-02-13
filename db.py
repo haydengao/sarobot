@@ -36,7 +36,7 @@ def make_connection_info():
     sql_run.execute("select * from account")
     for k in sql_run.fetchall():
         server_account["%s@%s:%d" %(k[1],k[0],k[3])] = k[2]
-    
+    conn.close()
     return server_account
 
 
@@ -66,6 +66,25 @@ def add_server_info(address,username,password,port):
     sql_run.execute("insert into account values(?,?,?,?)",server_info_sql)
     conn.commit()
     conn.close()
+
+def change_password(address,newpassword):
+    conn = sqlite3.connect("./database/sarobot.db")
+    sql_run = conn.cursor()
+    change_info = [address,newpassword]
+    sql_run.execute("update account set password = ? where address like ?",change_info)
+    conn.commit()
+    conn.close()
+
+def make_server_info(address):
+    conn = sqlite3.connect("./database/sarobot.db")
+    sql_run = conn.cursor()
+    server_info = []
+    sql = "select username,password from account where address like '%s'" %address
+    sql_run.execute(sql)
+    for i in sql_run.fetchall():
+        server_info = [i[0],i[1]]
+    return server_info
+
 
 
 

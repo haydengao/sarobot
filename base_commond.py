@@ -12,7 +12,7 @@ from fabric.context_managers import *
 import re,sys,subprocess,socket
 from random import choice
 
-service = "mysqld"
+#service = "mysqld"
 import db
 #env.hosts = ["root@192.168.6.51:22","root@192.168.6.52:22",]
 #env.roledefs = {'mysql':['root@192.168.6.51:22','root@192.168.6.52:22',],
@@ -39,7 +39,7 @@ def check_host_alive():
     
 
 def put_base_script():
-    with hide("running"):
+    with hide("running", warn_only=True):
         put("./script/system_monitor.sh","/opt")
         run("chmod +x /opt/system_monitor.sh")
         
@@ -60,11 +60,11 @@ def change_password():
             pass
             
         
-def service_start():
+def service_start(service):
     with settings(hide('running'), warn_only=True):
         sudo("/etc/init.d/%s start" % service)
         
-def service_stop():
+def service_stop(service):
     with settings(hide('running'), warn_only=True):
         sudo("/etc/init.d/%s stop" % service)
         
